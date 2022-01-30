@@ -2,6 +2,10 @@
 
 <p align="center"><b> Submit bulk patient data to multiple intraocular lens power calculation formulas.</b></p>
 
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/1383561/151686011-7a40c115-f0fc-43ce-9e9c-7e456ff77cfe.png" alt="stock image of a cat wearing glasses" width="300">
+</p>
+
 ## About ##
 For research purposes only!
 
