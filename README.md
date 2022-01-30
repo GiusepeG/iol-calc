@@ -1,6 +1,6 @@
 <h1 align="center">catcalc</h1>
 
-<p align="center"><b Submit bulk patient data to multiple intraocular lens power calculation formulas.</b></p>
+<p align="center"><b> Submit bulk patient data to multiple intraocular lens power calculation formulas.</b></p>
 
 ## About ##
 For research purposes only!
