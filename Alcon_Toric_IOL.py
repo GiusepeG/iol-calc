@@ -7,50 +7,52 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.select import Select
 
+opts = Options()  # options for chromedriver
+opts.add_argument("--window-size=1000,800")  # specifies window width,height
+# opts.add_argument("headless")  # runs without the browser visible
+exe_path = chromedriver_binary.chromedriver_filename
+chromedriver = None # initialize chromedriver global variable.
 
+def county_and_language_page():
+	global chromedriver
+	# https://www.myalcon-toriccalc.com/#/countryLanguage
+	country_select_elem = Select(chromedriver.find_element(By.ID, 'countrydropDown'))
+	if country_select_elem is not None:
+		country_select_elem.select_by_value("United States")  # value="0"
+		language_select_elem = Select(chromedriver.find_element(By.ID, 'languagedropDown'))
+		language_select_elem.select_by_value("English")
+		language_continue_elem = chromedriver.find_element(By.ID, 'countryLanguageContinue')
+		language_continue_elem.click()
+		time.sleep(1)
 
-# https://www.myalcon-toriccalc.com/
-# did it resolve to 
-https://www.myalcon-toriccalc.com/#/calculator
-or 
-https://www.myalcon-toriccalc.com/#/countryLanguage
-
-<select name="countrydropDown" id="countrydropDown" class="form-control ng-pristine ng-valid ng-touched" 
-ng-model="selectedCountry" ng-change="countryChanged(selectedCountry)" ng-options="country as country.name for country in countries">
-<option value="" disabled="" selected="" data-i18n="CountryDefault" class="">Select A Country</option>
-<option value="0" label="United States">United States</option>
-<option value="1" label="European Union + EFTA">European Union + EFTA</option>
-<option value="2" label="Asia">Asia</option>
-<option value="3" label="Australia">Australia</option>
-<option value="4" label="Canada">Canada</option>
-<option value="5" label="Japan">Japan</option>
-<option value="6" label="Latin America">Latin America</option>
-<option value="7" label="Other">Other</option></select>
-"United States"
-
-
-language_select_elem = Select(chromedriver.find_element(By.ID, 'languagedropDown'))  # By.Name w/ same arg would also work.
-language_select_elem.select_by_value("English")
-time.sleep(1)
-# ToC
-time.sleep(1)
-
-
-<button type="button" id="countryLanguageContinue" class="btn pull-right"
- ng-disabled="(selectedCountry.id == undefined) || (selectedLanguage.id == undefined)" 
- ng-click="countryLanguageContinueClick(selectedCountry, selectedLanguage)" 
- data-i18n="ContinueButtonLabel">Continue</button>
-
-https://www.myalcon-toriccalc.com/#/termsConditions
-<input type="checkbox" id="termsConditionsIAgree" ng-model="accepted" class="ng-pristine ng-untouched ng-valid">
-<button type="button" id="termsConditionsContinue" class="btn pull-right" ng-disabled="!accepted" ng-click="termsConditionsContinueClick(accepted)" data-i18n="ContinueButtonLabel">Continue</button>
-
+def terms_and_conditions():
+	global chromedriver
+	# https://www.myalcon-toriccalc.com/#/termsConditions
+	terms_checkbox_elem = chromedriver.find_element(By.ID, 'termsConditionsIAgree')
+	if terms_checkbox_elem is not None:
+		terms_checkbox_elem.click()
+		terms_continue_elem = chromedriver.find_element(By.ID, 'termsConditionsContinue')
+		terms_continue_elem.click()
+		time.sleep(1)
 
 def input_dummy_names():
+	global chromedriver
 	surgeon_name_elem = chromedriver.find_element(By.Name, 'surgeonNameTextbox')
 	patient_name_elem = chromedriver.find_element(By.Name, 'patientFirstNametextBox')
 	surgeon_name_elem.send_keys("Demo Surgeon")
 	patient_name_elem.send_keys("Demo Patient")
+
+def main():
+	global chromedriver
+	county_and_language_page()
+	terms_and_conditions()
+
+	input_dummy_names()  # needs to happen first before the rest of the form input
+
+
+	# https://www.myalcon-toriccalc.com/
+	# did it resolve to 
+	# https://www.myalcon-toriccalc.com/#/calculator
 
 
 
