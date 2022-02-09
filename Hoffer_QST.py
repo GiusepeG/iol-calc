@@ -41,6 +41,7 @@ def calculate_values():
 	calculate_button_elem.click()
 
 def select_gender(patient_data: dict):
+	global chromedriver
 	if patient_data['gender'] == 'M':
 		male_button_elem   = chromedriver.find_element(By.ID, 'input-Gender_BV_option_0')
 		parent_elem = male_button_elem.find_element(By.XPATH, '..')  # to avoid ElementClickInterceptedException
@@ -69,6 +70,7 @@ def select_gender(patient_data: dict):
 # 			  "Zeiss - CT ASPHINA 509M/MP", "Zeiss - AT LARA 829MP", "Zeiss - AT LISA TRI 839MP"]
 # }
 def select_IOL_model(patient_data: dict):
+	global chromedriver
 	if patient_data['eye_side'] == 'R':
 		iol_mfr_elem = Select(chromedriver.find_element(By.ID, 'input-right-IOLModel'))
 		iol_mfr_elem.select_by_value(patient_data['mfr'])
@@ -81,6 +83,7 @@ def select_IOL_model(patient_data: dict):
 		iol_model_elem.select_by_value(patient_data['model'])
 
 def get_IOL_model_value(patient_data: dict) -> str:
+	global chromedriver
 	if patient_data['eye_side'] == 'R':
 		R_hoffer_pACD_elem = chromedriver.find_element(By.ID, 'input-right-pACD')
 		return str(R_hoffer_pACD_elem.get_attribute('value'))
@@ -89,6 +92,7 @@ def get_IOL_model_value(patient_data: dict) -> str:
 		return str(L_hoffer_pACD_elem.get_attribute('value'))
 
 def input_OD(patient_data: dict):
+	global chromedriver
 	R_axial_length_elem = chromedriver.find_element(By.ID, 'input-right-AL')
 	R_K1_elem           = chromedriver.find_element(By.ID, 'input-right-K1')
 	R_K2_elem           = chromedriver.find_element(By.ID, 'input-right-K2')
@@ -104,6 +108,7 @@ def input_OD(patient_data: dict):
 	# R_ACD_elem.send_keys(str(patient_data['target_PO_rx']))
 
 def input_OS(patient_data: dict):
+	global chromedriver
 	L_axial_length_elem = chromedriver.find_element(By.ID, 'input-left-AL')
 	L_K1_elem           = chromedriver.find_element(By.ID, 'input-left-K1')
 	L_K2_elem           = chromedriver.find_element(By.ID, 'input-left-K2')
@@ -122,6 +127,7 @@ def input_OS(patient_data: dict):
 # The two headers for the table are IOL power (D), Predicted Rx
 # Example: [[12.0, 1.22], [12.5, 0.93], [13.0, 0.64]]
 def get_results(patient_data: dict) -> list:
+	global chromedriver
 	eye_side = patient_data['eye_side']
 	if eye_side == 'R':
 		eye_table_elem = chromedriver.find_element(By.ID, 'right-se-table')  # left-hand column, for right eye.
